@@ -12,9 +12,9 @@ use flowsnet_platform_sdk::logger;
 pub async fn run() -> anyhow::Result<()> {
     logger::init();
     let telegram_token = std::env::var("telegram_token").unwrap();
-    let placeholder_text = std::env::var("placeholder").unwrap_or("Typing ...".to_string());
+    let placeholder_text = std::env::var("placeholder").unwrap_or("Sebentar ya ...".to_string());
     let system_prompt = std::env::var("system_prompt").unwrap_or("You are a helpful assistant answering questions on Telegram.".to_string());
-    let help_mesg = std::env::var("help_mesg").unwrap_or("I am your assistant on Telegram. Ask me any question! To start a new conversation, type the /restart command.".to_string());
+    let help_mesg = std::env::var("help_mesg").unwrap_or("Aku adalah teman Positive Vibes Only. Aku siap membantumu. Untuk memulai percakapan baru, ketik /restart.".to_string());
 
     listen_to_update(&telegram_token, |update| {
         let tele = Telegram::new(telegram_token.to_string());
@@ -32,8 +32,8 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
         let mut openai = OpenAIFlows::new();
         openai.set_retry_times(3);
         let mut co = ChatOptions {
-            // model: ChatModel::GPT4,
-            model: ChatModel::GPT35Turbo,
+            // model: ChatModel::GPT35Turbo,
+            model: ChatModel::GPT4,
             restart: false,
             system_prompt: Some(system_prompt),
         };
@@ -48,7 +48,7 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
             log::info!("Started converstion for {}", chat_id);
 
         } else if text.eq_ignore_ascii_case("/restart") {
-            _ = tele.send_message(chat_id, "Ok, I am starting a new conversation.");
+            _ = tele.send_message(chat_id, "Ok, Ayo kita mulai percakapan baru..");
             set(&chat_id.to_string(), json!(true), None);
             log::info!("Restarted converstion for {}", chat_id);
 
