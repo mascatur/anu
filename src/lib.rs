@@ -33,7 +33,7 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
         openai.set_retry_times(3);
         let mut co = ChatOptions {
             // model: ChatModel::GPT35Turbo,
-            model: ChatModel::GPT4,
+            model: ChatModel::GPT-4,
             restart: false,
             system_prompt: Some(system_prompt),
         };
