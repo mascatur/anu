@@ -50,12 +50,12 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
         } else if text.eq_ignore_ascii_case("/restart") {
             _ = tele.send_message(chat_id, "Ok, Ayo kita mulai percakapan baru..");
             set(&chat_id.to_string(), json!(true), None);
-            log::info!("Restarted converstion for {}", chat_id);
+            log::info!("Mengulang percakapan untuk {}", chat_id);
 
         } else {
             let placeholder = tele
                 .send_message(chat_id, placeholder_text)
-                .expect("Error occurs when sending Message to Telegram");
+                .expect("Server Positive Vibes Only");
 
             let restart = match get(&chat_id.to_string()) {
                 Some(v) => v.as_bool().unwrap_or_default(),
@@ -72,7 +72,7 @@ async fn handler(tele: Telegram, placeholder_text: &str, system_prompt: &str, he
                     _ = tele.edit_message_text(chat_id, placeholder.id, r.choice);
                 }
                 Err(e) => {
-                    _ = tele.edit_message_text(chat_id, placeholder.id, "Sorry, an error has occured. Please try again later!");
+                    _ = tele.edit_message_text(chat_id, placeholder.id, "Maaf, Positive Vibes Only beda server denganmu !");
                     log::error!("OpenAI returns error: {}", e);
                 }
             }
